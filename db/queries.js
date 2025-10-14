@@ -4,19 +4,23 @@ async function getPuzzleById(puzzleId) {
   try {
     const puzzle = await prisma.puzzle.findUnique({
       where: { id: puzzleId },
-      select: {
-        id: true,
-        title: true,
-        createdAt: true,
-        characters: {
-          include: {
-            id: true,
-            name: true,
-            image: true,
-            coordinates: true,
-          },
-        },
+      include: {
+        characters: true, // include all fields from Character
+        leaderboard: true, // optional if you also want it
       },
+      //   select: {
+      //     id: true,
+      //     title: true,
+      //     createdAt: true,
+      //     characters: {
+      //       include: {
+      //         id: true,
+      //         name: true,
+      //         image: true,
+      //         coordinates: true,
+      //       },
+      //     },
+      //   },
     });
 
     if (!puzzle) {

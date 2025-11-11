@@ -8,19 +8,6 @@ async function getPuzzleById(puzzleId) {
         characters: true, // include all fields from Character
         leaderboard: true, // optional if you also want it
       },
-      //   select: {
-      //     id: true,
-      //     title: true,
-      //     createdAt: true,
-      //     characters: {
-      //       include: {
-      //         id: true,
-      //         name: true,
-      //         image: true,
-      //         coordinates: true,
-      //       },
-      //     },
-      //   },
     });
 
     if (!puzzle) {

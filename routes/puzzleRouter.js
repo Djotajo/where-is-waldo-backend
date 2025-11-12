@@ -2,22 +2,45 @@ const { Router } = require("express");
 
 const { Prisma } = require("@prisma/client");
 
+const { v4: uuidv4 } = require("uuid");
+
 const puzzleRouter = Router();
 
 const db = require("../db/queries");
 const puzzleController = require("../controllers/puzzleController");
 
 puzzleRouter.get("/", async (req, res) => {
-  console.log("puzzle router");
   res.send("success");
 });
 // puzzleRouter.get("/:puzzleId", puzzleController.getPuzzle);
 
 puzzleRouter.get("/:puzzleId", async (req, res) => {
-  console.log("step 2");
   const { puzzleId } = req.params;
   const puzzle = await db.getPuzzleById(puzzleId);
   res.json(puzzle);
+});
+
+puzzleRouter.post("/:puzzleId/leaderboard", async (req, res) => {
+  const { puzzleId } = req.params;
+
+  const id = uuidv4();
+  console.log(id);
+  const { username, score, leaderboardId } = req.body;
+
+  const player = await db.postNewPlayer(
+    id,
+    username,
+    score,
+    Number(leaderboardId)
+  );
+  res.json(player);
+});
+
+puzzleRouter.get("/:puzzleId/leaderboard", async (req, res) => {
+  const { puzzleId } = req.params;
+
+  const leaderboard = await db.getLeaderboardByPuzzleId(puzzleId);
+  res.json(leaderboard);
 });
 
 // // CREATE A NEW POST

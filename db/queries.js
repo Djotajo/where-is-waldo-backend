@@ -46,7 +46,6 @@ async function postNewPlayer(id, username, score, leaderboardId) {
     const player = await prisma.player.create({
       data: {
         id,
-        // kod id u kontroloru ili ruti treba dodati uuid
         username,
         score,
         leaderboardId,
@@ -419,4 +418,5 @@ async function getPostComments(postId) {
 module.exports = {
   getPuzzleById,
   postNewPlayer,
+  getLeaderboardByPuzzleId,
 };

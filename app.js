@@ -26,6 +26,10 @@ app.use(bodyParser.json());
 
 const puzzleRouter = require("./routes/puzzleRouter");
 app.use("/puzzle", puzzleRouter);
+app.get("/leaderboards", async (req, res) => {
+  const leaderboards = await db.getLeaderboards();
+  res.json(leaderboards);
+});
 
 app.use(express.static(path.join(__dirname, "public")));
 

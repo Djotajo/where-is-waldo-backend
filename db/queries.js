@@ -41,6 +41,26 @@ async function getLeaderboardByPuzzleId(puzzleId) {
   }
 }
 
+async function getLeaderboards() {
+  try {
+    const leaderboards = await prisma.leaderboard.findMany({
+      include: {
+        players: true,
+        // ili ovdje ili u kontroloru ograniciti na tipa top 10-20
+      },
+    });
+
+    if (!leaderboards) {
+      return null;
+    }
+
+    return leaderboards;
+  } catch (error) {
+    console.error("Database error:", error);
+    return { error };
+  }
+}
+
 async function postNewPlayer(id, username, score, leaderboardId) {
   try {
     const player = await prisma.player.create({
@@ -419,4 +439,5 @@ module.exports = {
   getPuzzleById,
   postNewPlayer,
   getLeaderboardByPuzzleId,
+  getLeaderboards,
 };
